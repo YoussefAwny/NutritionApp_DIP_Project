@@ -9,7 +9,7 @@ public class HoughLine {
         
 		
 		// Declare the output variables
-        Mat dst = new Mat(), cdst = new Mat(),cdstP ;
+		Mat dst = new Mat(), cdst = new Mat(), cdstP;
         
         String default_file = "src/N1.png";
         
@@ -44,7 +44,7 @@ public class HoughLine {
         
         
         // Draw the lines
-        for (int x = 0; x < lines.rows(); x++)
+        for (int x = 0; x < lines.rows() -1; x++)
         {
             double rho = lines.get(x, 0)[0],
                     theta = lines.get(x, 0)[1];
@@ -52,11 +52,73 @@ public class HoughLine {
             double x0 = a*rho, y0 = b*rho;
             
             
+            
+            
             Point pt1 = new Point(Math.round(x0 + 1000*(-b)), Math.round(y0 + 1000*(a)));
             Point pt2 = new Point(Math.round(x0 - 1000*(-b)), Math.round(y0 - 1000*(a)));
+            
+            
             if(b>0.95)
             {
-            	Imgproc.line(cdst, pt1, pt2, new Scalar(0, 0, 255), 3, Imgproc.LINE_AA, 0);
+            
+	            double rho1 = lines.get(x+1, 0)[0],
+	                    theta1 = lines.get(x+1, 0)[1];
+	            
+	            double a1 = Math.cos(theta1), b1 = Math.sin(theta1);
+	            double x1 = a1*rho1, y1 = b1*rho1;
+	            
+	            if (b1<0.95)
+	            {
+	            
+		            while (b1<0.95 && x<lines.rows()-2)
+		            {
+		            	x++;
+		            	 rho1 = lines.get(x+1, 0)[0];
+			             theta1 = lines.get(x+1, 0)[1];
+			            
+			             a1 = Math.cos(theta1);
+			             
+			             b1 = Math.sin(theta1);
+			             x1 = a1*rho1;
+			             y1 = b1*rho1;
+		            }
+	            }
+	            
+	            int X1 = (int)Math.round(x0 + 1000*(-b));
+	            double X2 = Math.round(x0 - 1000*(-b));
+	            int X3 = (int) Math.round(x1 + 1000*(-b1));
+	            double X4 = Math.round(x1 - 1000*(-b1));
+	            
+	            int Y1 = (int)Math.round(y0 + 1000*(a));
+	            double Y2 = Math.round(y0 - 1000*(a));
+	            
+	            int Y3 = (int) Math.round(y1 + 1000*(a1));
+	            double Y4 = Math.round(y1 - 1000*(a1));
+	            
+	            int cropCenterX = (int)(X4-X1)/2;
+	            int cropCenterY = (int)(Y4-Y1)/2;
+	            int  cropWidth = (int)(X2-X1);
+	            int cropHeight = (int)(Y1-Y3);
+	            
+	            //System.out.println(x0);
+	            //System.out.println(x1);
+	            System.out.println(y0);
+	            
+	            System.out.println(y1);
+	            
+	            System.out.println("");
+	            
+	            //System.out.println(src.rows());
+	            //System.out.println(src.cols());
+	           if(y0>y1 && y1>0)
+	           {
+		            Rect rect = new Rect(0,(int)y1, src.cols(),(int)(y0-y1));
+		            Mat cropped = new Mat(src, rect);
+		            HighGui.imshow("res"+Integer.toString(x), cropped);
+	           }
+	            
+
+		            Imgproc.line(cdst, pt1, pt2, new Scalar(0, 0, 255), 3, Imgproc.LINE_AA, 0);
             }
         }
         
