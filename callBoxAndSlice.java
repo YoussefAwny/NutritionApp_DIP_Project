@@ -12,7 +12,7 @@ public class callBoxAndSlice {
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 		
 		//Image Location
-		String default_file = "src/test1.png";
+		String default_file = "src/Fact3.jpg";
         
         String filename = ((args.length > 0) ? args[0] : default_file);
         
@@ -33,17 +33,22 @@ public class callBoxAndSlice {
         BoxDetection B =  new BoxDetection();
         Mat result1 =B.findRectangle(src);
         
+        HighGui.imshow("Result", result1);
         
         //Result from Slice after box detection
         Slice S = new Slice();
-        Vector <Mat> result2 =S.run(result1);
+        Vector <Mat> result2 =S.run(src);
         
+        
+        System.out.println(result2.size());
         //Display the Images after cropping from slice
         for (int i = 0 ;i< result2.size() ; i++)
         {
         	HighGui.imshow("Result"+Integer.toString(i), result2.get(i));
         	
         }
+        
+        //HighGui.imshow("Result2", result1);
         
         //HighGui.imshow("Result", result);
         

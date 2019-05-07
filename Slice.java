@@ -1,3 +1,4 @@
+
 import org.opencv.core.Mat;
 import org.opencv.core.Rect;
 import org.opencv.imgproc.Imgproc;
@@ -9,16 +10,15 @@ public class Slice {
 
 		// Declare the output variable
 		Mat dst = new Mat();
-     
 
         // Edge detection
-        Imgproc.Canny(src, dst, 50, 200, 3, false);
+        Imgproc.Canny(src, dst, 50, 300, 3, false);
 
         
         //Standard Hough Line Transform
         Mat lines = new Mat(); // will hold the results of the detection
         
-        Imgproc.HoughLines(dst, lines, 1, Math.PI/180, 150); // runs the actual detection
+        Imgproc.HoughLines(dst, lines, 1, Math.PI/180, 350); // runs the actual detection
         
         
         //Vector the hold all Y value of the lines
@@ -34,7 +34,7 @@ public class Slice {
             
             
             //b>0.95 to get horizontal lines only
-            if (b>0.95)
+            if (b>0.9)
             {
             	y.add((int)y0);
             }
@@ -58,14 +58,14 @@ public class Slice {
         	
         	
         	//This condition to skip small images that are nothing
-        	if (height>src.rows()/40)
+        	if (height>src.rows()/50)
         	{
         	
         		/*The x and the width are always constant as it as the total width of the table
         		 * While the Y we start from current Y till the next one
         		 * */
         		
-		        Rect rect = new Rect(0,y1, src.cols(),height);
+		        Rect rect = new Rect(0,y1,src.width(),height);
 		        Mat cropped = new Mat(src, rect);
 		        result.add(cropped);
         	}
