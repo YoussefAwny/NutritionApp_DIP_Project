@@ -17,7 +17,7 @@ import java.util.*;
 public class TextRecognition {
 	
 	
-	static char C[] = {'a', 'b', 'c','d', 'e', 'f', 'g','h', 'i', 'j','k', 'l','m', 'n', 'o', 'p','q', 'r', 's', 't','u','v', 'w','x', 'y','z', 'C', 'E', 'F', 'K', 'P', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
+	static char C[] = {'a', 'b', 'c','d', 'e', 'f', 'g','h', 'i', 'j','k', 'l','m', 'n', 'o', 'p','q', 'r', 's', 't','u','v', 'w','x', 'y','z','a', 'b', 'c','d', 'e', 'f', 'g','h', 'i', 'j','k', 'l','m', 'n', 'o', 'p','q', 'r', 's', 't','u','v', 'w','x', 'y','z', 'a', 'b', 'c','d', 'e', 'f', 'g','h', 'i', 'j','k', 'l','m', 'n', 'o', 'p','q', 'r', 's', 't','u','v', 'w','x', 'y','z','C', 'E', 'F', 'K', 'P','S','C', 'E', 'F', 'K', 'P','S', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
 	
 	
 	public static List<Mat> removebadcomponents(Map<Double, Mat> componentmap) {
@@ -139,7 +139,7 @@ public class TextRecognition {
         
         //Load Image
         Imgcodecs imageCodecs = new Imgcodecs();
-        Mat matrix = imageCodecs.imread("E:\\Projects4thcse\\Java_Image\\NutritionTable\\sample.png");
+        Mat matrix = imageCodecs.imread("E:\\Projects4thcse\\Java_Image\\NutritionTable\\Result10.png");
         System.out.print(matrix.rows());
         System.out.println("Image Loaded");
         
@@ -148,13 +148,20 @@ public class TextRecognition {
         
         // Load all templates
         List<Mat> template = new ArrayList<>();
-        for(int i=0; i<26; i++)
+        for(int i=0; i<90; i++)
         {
         	String template_file;
         	if(i<26)
         		template_file = "E:\\Projects4thcse\\Java_Image\\ocr-Template-matching--master\\Small\\" + C[i] + ".jpg";
-        	else
+        	else if(i<52)
+        		template_file = "E:\\Projects4thcse\\Java_Image\\ocr-Template-matching--master\\Small1\\" + C[i] + "-.jpg";
+        	else if(i<78)
+        		template_file = "E:\\Projects4thcse\\Java_Image\\ocr-Template-matching--master\\Small2\\" + C[i] + "--.jpg";
+        	else if(i<84)
         		template_file = "E:\\Projects4thcse\\Java_Image\\ocr-Template-matching--master\\Capital\\" + C[i] + ".jpg";
+        	else
+        		template_file = "E:\\Projects4thcse\\Java_Image\\ocr-Template-matching--master\\Capital1\\" + C[i] + "-.jpg";
+        	
         	template.add(imageCodecs.imread(template_file));
         	Imgproc.cvtColor(template.get(i), template.get(i), Imgproc.COLOR_RGB2GRAY, 0);
         }

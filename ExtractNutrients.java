@@ -57,6 +57,8 @@ public class ExtractNutrients {
 				Facts.put("sodium", val);
 			else if(nutrient.contains("erving") || nutrient.contains("per"))
 				Facts.put("serving", val);
+			else if(nutrient.contains("fiber") || nutrient.contains("Fiber"))
+				Facts.put("fiber", val);
 			
 		}
 		return Facts;	
